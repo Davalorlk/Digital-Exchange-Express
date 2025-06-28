@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Digital Express Exchange - Phones</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="icon.png" type="image/png">
     <style>
         /* Cool inverted clip-path designs for product cards */
         .product-card {
@@ -248,7 +249,7 @@
             flex-direction: column;
             align-items: center;
             transition: transform 0.3s, box-shadow 0.3s;
-            overflow: hidden;
+            overflow: visible;
         }
 
         .card:hover {
@@ -258,31 +259,31 @@
 
         .card-image-container {
             position: absolute;
-            top: -40px;
+            top: -50px;
             left: 50%;
             transform: translateX(-50%);
             width: 120px;
             height: 120px;
-            background: rgba(255,255,255,0.7);
-            border-radius: 18px;
+            background: #fff;
+            border-radius: 50%;
             box-shadow: 0 4px 24px rgba(0,0,0,0.10);
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 2;
+            z-index: 3;
+            overflow: hidden;
         }
 
         .card img {
             width: 100%;
             height: 100%;
-            object-fit: contain;
-            border-radius: 16px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            object-fit: cover;
+            border-radius: 50%;
             background: transparent;
         }
 
         .card-content {
-            margin-top: 90px;
+            margin-top: 80px;
             width: 100%;
             padding: 24px 18px 18px 18px;
             display: flex;
@@ -305,7 +306,7 @@
         }
 
         .price-badge {
-            background: #00d4ff;
+            background: #3d9b2c;
             color: white;
             font-size: 1.1em;
             font-weight: bold;
@@ -386,12 +387,12 @@
                 max-width: 99vw;
             }
             .card-image-container {
-                width: 90px;
-                height: 90px;
+                width: 80px;
+                height: 80px;
                 top: -30px;
             }
             .card-content {
-                margin-top: 70px;
+                margin-top: 50px;
                 padding: 16px 8px 12px 8px;
             }
             .title {
@@ -402,13 +403,24 @@
                 padding: 6px 12px;
             }
         }
+
+        .main-card-image {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            background: #fff;
+            display: block;
+        }
     </style>
 </head>
 <body>
     <nav class="navbar">
         <div class="nav-container">
             <div class="logo">
-                <h2>Digital Express Exchange</h2>
+                <img src="logo.png" alt="Digital Express Exchange Logo" class="navbar-logo" style="height:70pxpx; width:130px; object-fit:contain; margin-top:-8px; margin-bottom:-8px;">
             </div>
             <ul class="nav-menu">
                 <li><a href="index.html">Home</a></li>
@@ -484,8 +496,8 @@
 
         // Display products
         function displayProducts() {
-            const productsGrid = document.getElementById('productsGrid');
-            const noResults = document.getElementById('noResults');
+        const productsGrid = document.getElementById('productsGrid');
+        const noResults = document.getElementById('noResults');
 
             if (filteredProducts.length === 0) {
                 productsGrid.style.display = 'none';
@@ -505,6 +517,7 @@
                         }
                     </div>
                     <div class="card-content">
+                        ${product.image ? `<img class='main-card-image' src='${product.image}' alt='${product.name}'>` : ''}
                         <span class="title">${product.name}</span>
                         <span class="price-badge">${product.price.toLocaleString()} XAF</span>
                     </div>
@@ -544,7 +557,7 @@
             const product = filteredProducts[index];
             const modal = document.getElementById('productModal');
             const modalBody = document.getElementById('modalBody');
-
+            
             modalBody.innerHTML = `
                 <div class="modal-product">
                     <div class="modal-image">
@@ -562,12 +575,12 @@
                             <ul>
                                 <li><strong>Category:</strong> ${product.category}</li>
                                 <li><strong>Added:</strong> ${new Date(product.created_at).toLocaleDateString()}</li>
-                            </ul>
+                        </ul>
                         </div>
                     </div>
                 </div>
             `;
-
+            
             modal.style.display = 'block';
         }
 

@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Digital Express Exchange - Laptops</title>
+    <title>Digital Dream Land - Laptops</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="icon.png" type="image/png">
     <style>
         /* Cool inverted clip-path designs for product cards */
         .product-card {
@@ -402,13 +403,24 @@
                 padding: 6px 12px;
             }
         }
+
+        .main-card-image {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            background: #fff;
+            display: block;
+        }
     </style>
 </head>
 <body>
     <nav class="navbar">
         <div class="nav-container">
             <div class="logo">
-                <h2>Digital Express Exchange</h2>
+                <img src="logo.png" alt="Digital Express Exchange Logo" class="navbar-logo" style="height:70pxpx; width:130px; object-fit:contain; margin-top:-8px; margin-bottom:-8px;">
             </div>
             <ul class="nav-menu">
                 <li><a href="index.html">Home</a></li>
@@ -461,7 +473,11 @@
 
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2024 Digital Express Exchange. All rights reserved.</p>
+            <p>&copy; 2024 Digital Dream Land. All rights reserved.</p>
+            <div class="contact-info" style="margin-top:10px;display:flex;align-items:center;gap:18px;justify-content:center;">
+                <span style="display:flex;align-items:center;gap:4px;"><img src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/icons/envelope-fill.svg" alt="Email" style="width:18px;height:18px;vertical-align:middle;"> DigitalDreamLand</span>
+                <span style="display:flex;align-items:center;gap:4px;"><img src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/icons/telephone-fill.svg" alt="Phone" style="width:18px;height:18px;vertical-align:middle;"> +237679327727</span>
+            </div>
         </div>
     </footer>
 
@@ -484,8 +500,8 @@
 
         // Display products
         function displayProducts() {
-            const productsGrid = document.getElementById('productsGrid');
-            const noResults = document.getElementById('noResults');
+        const productsGrid = document.getElementById('productsGrid');
+        const noResults = document.getElementById('noResults');
 
             if (filteredProducts.length === 0) {
                 productsGrid.style.display = 'none';
@@ -505,6 +521,7 @@
                         }
                     </div>
                     <div class="card-content">
+                        ${product.image ? `<img class='main-card-image' src='${product.image}' alt='${product.name}'>` : ''}
                         <span class="title">${product.name}</span>
                         <span class="price-badge">${product.price.toLocaleString()} XAF</span>
                     </div>
@@ -544,7 +561,7 @@
             const product = filteredProducts[index];
             const modal = document.getElementById('productModal');
             const modalBody = document.getElementById('modalBody');
-
+            
             modalBody.innerHTML = `
                 <div class="modal-product">
                     <div class="modal-image">
@@ -562,12 +579,12 @@
                             <ul>
                                 <li><strong>Category:</strong> ${product.category}</li>
                                 <li><strong>Added:</strong> ${new Date(product.created_at).toLocaleDateString()}</li>
-                            </ul>
+                        </ul>
                         </div>
                     </div>
                 </div>
             `;
-
+            
             modal.style.display = 'block';
         }
 
