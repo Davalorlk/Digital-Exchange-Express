@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Express Exchange - Laptops</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Cool inverted clip-path designs for product cards */
+        .product-card {
+            position: relative;
+            overflow: hidden;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            min-height: 340px;
+            max-width: 370px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        /* Inverted clip-path border */
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, #28a745, #20c997, #28a745);
+            clip-path: polygon(0% 0%, 100% 0%, 100% 85%, 85% 100%, 0% 100%);
+            z-index: 1;
+        }
+
+        .product-card::after {
+            content: '';
+            position: absolute;
+            top: 2px; left: 2px; right: 2px; bottom: 2px;
+            background: white;
+            clip-path: polygon(0% 0%, 100% 0%, 100% 85%, 85% 100%, 0% 100%);
+            z-index: 2;
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 12px 30px rgba(40, 167, 69, 0.3);
+        }
+
+        .product-image {
+            position: relative;
+            z-index: 3;
+            width: 100%;
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8f9fa;
+        }
+
+        .product-image img {
+            width: auto;
+            height: 100%;
+            max-width: 100%;
+            object-fit: contain;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
+        }
+
+        .product-placeholder {
+            font-size: 3em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            width: 100%;
+            color: #28a745;
+        }
+
+        .product-info {
+            position: relative;
+            z-index: 4;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 18px 16px 12px 16px;
+        }
+
+        .product-name {
+            display: inline-flex;
+            align-items: center;
+            background: #28a745;
+            color: white;
+            padding: 7px 18px 7px 14px;
+            border-radius: 8px 20px 20px 8px;
+            font-size: 1em;
+            font-weight: 600;
+            min-width: 0;
+            max-width: 80%;
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            box-shadow: 0 2px 8px rgba(40,167,69,0.08);
+        }
+
+        .product-name::after {
+            content: '';
+            display: inline-block;
+            margin-left: 8px;
+            width: 18px;
+            height: 12px;
+            background: #28a745;
+            clip-path: polygon(0 0, 100% 50%, 0 100%);
+        }
+
+        .product-price {
+            background: #20c997;
+            color: white;
+            padding: 7px 16px;
+            border-radius: 16px 8px 16px 8px;
+            font-size: 1em;
+            font-weight: 600;
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            box-shadow: 0 2px 8px rgba(32,201,151,0.08);
+        }
+
+        .product-hover-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.95);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            z-index: 10;
+        }
+
+        .product-card:hover .product-hover-overlay {
+            opacity: 1;
+            pointer-events: auto;
+            transition-delay: 1s;
+        }
+
+        .hover-content {
+            max-width: 90%;
+            text-align: center;
+        }
+
+        .hover-content h3 {
+            margin: 0 0 15px 0;
+            font-size: 1.4em;
+            color: #fff;
+        }
+
+        .hover-content p {
+            margin: 8px 0;
+            font-size: 0.95em;
+            line-height: 1.5;
+            color: #e0e0e0;
+        }
+
+        .hover-content .category-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            clip-path: polygon(10% 0%, 90% 0%, 100% 50%, 90% 100%, 10% 100%, 0% 50%);
+        }
+
+        /* Loading animation */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .loading::after {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #28a745;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Enhanced search styling */
+        .search-input {
+            clip-path: polygon(5% 0%, 95% 0%, 100% 50%, 95% 100%, 5% 100%, 0% 50%);
+            transition: clip-path 0.3s ease;
+        }
+
+        .search-input:focus {
+            clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+        }
+
+        .search-button {
+            clip-path: polygon(20% 0%, 80% 0%, 100% 50%, 80% 100%, 20% 100%, 0% 50%);
+            transition: all 0.3s ease;
+        }
+
+        .search-button:hover {
+            clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+            transform: scale(1.1);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 600px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            .product-card {
+                min-height: 320px;
+                max-width: 98vw;
+            }
+            .product-image {
+                height: 140px;
+            }
+            .product-info {
+                padding: 12px 8px 8px 8px;
+            }
+            .product-name, .product-price {
+                font-size: 0.95em;
+                padding: 6px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h2>Digital Express Exchange</h2>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="phones.html">Phones</a></li>
+                <li><a href="laptops.html" class="active">Laptops</a></li>
+                <li><a href="pc.html">PC</a></li>
+                <li><a href="about.html">About Us</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <section class="page-header">
+            <div class="container">
+                <h1>Premium Laptops</h1>
+                <p>High-performance laptops for work, gaming, and creative professionals</p>
+            </div>
+        </section>
+
+        <section class="search-section">
+            <div class="container">
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="Search laptops by name or description..." class="search-input">
+                    <button class="search-button">🔍</button>
+                </div>
+                <div id="searchResults" class="search-results"></div>
+            </div>
+        </section>
+
+        <section class="products">
+            <div class="container">
+                <div class="products-grid" id="productsGrid">
+                    <div class="loading">Loading products...</div>
+                </div>
+                <div id="noResults" class="no-results" style="display: none;">
+                    <h3>No laptops found</h3>
+                    <p>Try adjusting your search terms or browse all products above.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Digital Express Exchange. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        let allProducts = [];
+        let filteredProducts = [];
+
+        // Load products from API
+        async function loadProducts() {
+            try {
+                const response = await fetch('/api/products/laptops');
+                allProducts = await response.json();
+                filteredProducts = [...allProducts];
+                displayProducts();
+            } catch (error) {
+                console.error('Error loading products:', error);
+                document.getElementById('productsGrid').innerHTML = '<p>Error loading products. Please try again later.</p>';
+            }
+        }
+
+        // Display products
+        function displayProducts() {
+            const productsGrid = document.getElementById('productsGrid');
+            const noResults = document.getElementById('noResults');
+
+            if (filteredProducts.length === 0) {
+                productsGrid.style.display = 'none';
+                noResults.style.display = 'block';
+                return;
+            }
+
+            productsGrid.style.display = 'grid';
+            noResults.style.display = 'none';
+
+            productsGrid.innerHTML = filteredProducts.map((product, index) => `
+                <div class="product-card" onclick="openModal(${index})">
+                    <div class="product-image">
+                        ${product.image ? 
+                            `<img src="${product.image}" alt="${product.name}">` : 
+                            '<span class="product-placeholder">💻</span>'
+                        }
+                    </div>
+                    
+                    <div class="product-info">
+                        <div class="product-name">${product.name}</div>
+                        <div class="product-price">${product.price.toLocaleString()} XAF</div>
+                    </div>
+                    
+                    <!-- Hover overlay for full details -->
+                    <div class="product-hover-overlay">
+                        <div class="hover-content">
+                            <div class="category-badge">${product.category}</div>
+                            <h3>${product.name}</h3>
+                            <p><strong>Price:</strong> ${product.price.toLocaleString()} XAF</p>
+                            <p><strong>Description:</strong></p>
+                            <p>${product.description}</p>
+                            <p><strong>Added:</strong> ${new Date(product.created_at).toLocaleDateString()}</p>
+                            <p style="margin-top: 15px; font-size: 0.9em; opacity: 0.8;">Click for more details</p>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            
+            if (searchTerm === '') {
+                filteredProducts = [...allProducts];
+            } else {
+                filteredProducts = allProducts.filter(product => 
+                    product.name.toLowerCase().includes(searchTerm) ||
+                    product.description.toLowerCase().includes(searchTerm)
+                );
+            }
+            
+            displayProducts();
+        });
+
+        // Modal functionality
+        function openModal(index) {
+            const product = filteredProducts[index];
+            const modal = document.getElementById('productModal');
+            const modalBody = document.getElementById('modalBody');
+
+            modalBody.innerHTML = `
+                <div class="modal-product">
+                    <div class="modal-image">
+                        ${product.image ? 
+                            `<img src="${product.image}" alt="${product.name}">` : 
+                            '<div style="font-size: 4em; text-align: center;">💻</div>'
+                        }
+                    </div>
+                    <div class="modal-info">
+                        <h2>${product.name}</h2>
+                        <p class="modal-price">${product.price.toLocaleString()} XAF</p>
+                        <p class="modal-description">${product.description}</p>
+                        <div class="modal-specs">
+                            <h3>Product Details</h3>
+                            <ul>
+                                <li><strong>Category:</strong> ${product.category}</li>
+                                <li><strong>Added:</strong> ${new Date(product.created_at).toLocaleDateString()}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            modal.style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('productModal').style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('productModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // Load products when page loads
+        document.addEventListener('DOMContentLoaded', loadProducts);
+    </script>
+</body>
+</html>
