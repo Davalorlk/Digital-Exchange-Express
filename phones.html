@@ -472,7 +472,7 @@
         // Load products from API
         async function loadProducts() {
             try {
-                const response = await fetch('/api/products/phones');
+                const response = await fetch('https://digital-exchange-express.onrender.com/api/products/phones');
                 allProducts = await response.json();
                 filteredProducts = [...allProducts];
                 displayProducts();
