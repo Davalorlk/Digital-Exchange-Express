@@ -406,13 +406,19 @@
 
         .main-card-image {
             width: 100%;
-            height: 120px;
+            height: 180px;
             object-fit: cover;
-            border-radius: 8px;
+            border-radius: 0;
             margin-bottom: 16px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.06);
             background: #fff;
             display: block;
+            aspect-ratio: 16/9;
+            clip-path: none !important;
+        }
+
+        .card-content, .card, .products-grid {
+            clip-path: none !important;
         }
     </style>
 </head>
@@ -523,12 +529,6 @@
 
             productsGrid.innerHTML = filteredProducts.map((product, index) => `
                 <div class="card" onclick="openModal(${index})">
-                    <div class="card-image-container">
-                        ${product.image ? 
-                            `<img src="${product.image}" alt="${product.name}">` : 
-                            '<span class="product-placeholder">💻</span>'
-                        }
-                    </div>
                     <div class="card-content">
                         ${product.image ? `<img class='main-card-image' src='${product.image}' alt='${product.name}'>` : ''}
                         <span class="title">${product.name}</span>

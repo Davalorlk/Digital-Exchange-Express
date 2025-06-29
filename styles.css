@@ -347,21 +347,33 @@ body {
     padding: 2rem 0;
 }
 
+/* Masonry Grid for Product Cards */
 .products-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 2rem;
     padding: 0 20px;
+    grid-auto-flow: dense;
+    /* Masonry for modern browsers */
+    grid-template-rows: masonry;
+}
+
+@supports not (grid-template-rows: masonry) {
+    .products-grid {
+        /* Fallback: regular grid */
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 2rem;
+    }
 }
 
 .product-card {
-    position: relative;
-    overflow: hidden;
-    background: white;
-    border-radius: 15px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    min-height: 340px;
-    max-width: 370px;
+    break-inside: avoid;
+    -webkit-column-break-inside: avoid;
+    page-break-inside: avoid;
+    /* Remove fixed min-height for true masonry effect */
+    min-height: unset;
+    max-width: 100%;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
