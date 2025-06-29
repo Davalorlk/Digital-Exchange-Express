@@ -10,7 +10,11 @@ const app = express();
 const PORT = config.port;
 
 // Middleware
-app.use(cors());
+const corsOptions = {
+    origin: 'https://digital-exchange-express.vercel.app',
+    credentials: true // if you use cookies/auth, otherwise can be omitted
+};
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.static('.')); // Serve static files from current directory
 
