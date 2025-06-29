@@ -7,233 +7,13 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="icon.png" type="image/png">
     <style>
-        /* Cool inverted clip-path designs for product cards */
-        .product-card {
-            position: relative;
-            overflow: hidden;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            min-height: 340px;
-            max-width: 370px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        /* Inverted clip-path border */
-        .product-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(135deg, #28a745, #20c997, #28a745);
-            clip-path: polygon(0% 0%, 100% 0%, 100% 85%, 85% 100%, 0% 100%);
-            z-index: 1;
-        }
-
-        .product-card::after {
-            content: '';
-            position: absolute;
-            top: 2px; left: 2px; right: 2px; bottom: 2px;
-            background: white;
-            clip-path: polygon(0% 0%, 100% 0%, 100% 85%, 85% 100%, 0% 100%);
-            z-index: 2;
-        }
-
-        .product-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 12px 30px rgba(40, 167, 69, 0.3);
-        }
-
-        .product-image {
-            position: relative;
-            z-index: 3;
-            width: 100%;
-            height: 180px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #f8f9fa;
-        }
-
-        .product-image img {
-            width: auto;
-            height: 100%;
-            max-width: 100%;
-            object-fit: contain;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-            transition: transform 0.3s;
-        }
-
-        .product-card:hover .product-image img {
-            transform: scale(1.05);
-        }
-
-        .product-placeholder {
-            font-size: 3em;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-            width: 100%;
-            color: #28a745;
-        }
-
-        .product-info {
-            position: relative;
-            z-index: 4;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            padding: 18px 16px 12px 16px;
-        }
-
-        .product-name {
-            display: inline-flex;
-            align-items: center;
-            background: #28a745;
-            color: white;
-            padding: 7px 18px 7px 14px;
-            border-radius: 8px 20px 20px 8px;
-            font-size: 1em;
-            font-weight: 600;
-            min-width: 0;
-            max-width: 80%;
-            position: absolute;
-            top: 12px;
-            left: 12px;
-            box-shadow: 0 2px 8px rgba(40,167,69,0.08);
-        }
-
-        .product-name::after {
-            content: '';
-            display: inline-block;
-            margin-left: 8px;
-            width: 18px;
-            height: 12px;
-            background: #28a745;
-            clip-path: polygon(0 0, 100% 50%, 0 100%);
-        }
-
-        .product-price {
-            background: #20c997;
-            color: white;
-            padding: 7px 16px;
-            border-radius: 16px 8px 16px 8px;
-            font-size: 1em;
-            font-weight: 600;
-            position: absolute;
-            bottom: 12px;
-            right: 12px;
-            box-shadow: 0 2px 8px rgba(32,201,151,0.08);
-        }
-
-        .product-hover-overlay {
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.95);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s;
-            z-index: 10;
-        }
-
-        .product-card:hover .product-hover-overlay {
-            opacity: 1;
-            pointer-events: auto;
-            transition-delay: 1s;
-        }
-
-        .hover-content {
-            max-width: 90%;
-            text-align: center;
-        }
-
-        .hover-content h3 {
-            margin: 0 0 15px 0;
-            font-size: 1.4em;
-            color: #fff;
-        }
-
-        .hover-content p {
-            margin: 8px 0;
-            font-size: 0.95em;
-            line-height: 1.5;
-            color: #e0e0e0;
-        }
-
-        .hover-content .category-badge {
-            display: inline-block;
-            background: linear-gradient(135deg, #28a745, #20c997);
-            color: white;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.8em;
-            font-weight: bold;
-            margin-bottom: 10px;
-            clip-path: polygon(10% 0%, 90% 0%, 100% 50%, 90% 100%, 10% 100%, 0% 50%);
-        }
-
-        /* Loading animation */
-        .loading {
-            text-align: center;
-            padding: 40px;
-            color: #666;
-            font-size: 1.1em;
-        }
-
-        .loading::after {
-            content: '';
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #28a745;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-left: 10px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Enhanced search styling */
-        .search-input {
-            clip-path: polygon(5% 0%, 95% 0%, 100% 50%, 95% 100%, 5% 100%, 0% 50%);
-            transition: clip-path 0.3s ease;
-        }
-
-        .search-input:focus {
-            clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
-        }
-
-        .search-button {
-            clip-path: polygon(20% 0%, 80% 0%, 100% 50%, 80% 100%, 20% 100%, 0% 50%);
-            transition: all 0.3s ease;
-        }
-
-        .search-button:hover {
-            clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
-            transform: scale(1.1);
-        }
-
+        /* Only keep the unified, modern card styles */
         .products-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
             gap: 2.5rem;
             margin-top: 2rem;
         }
-
         .card {
             position: relative;
             width: 270px;
@@ -249,41 +29,26 @@
             flex-direction: column;
             align-items: center;
             transition: transform 0.3s, box-shadow 0.3s;
-            overflow: hidden;
+            overflow: visible;
         }
-
         .card:hover {
             transform: translateY(-8px) scale(1.03);
-            box-shadow: 0 16px 40px 0 rgba(40,167,69,0.18);
+            box-shadow: 0 16px 40px 0 rgba(0,123,255,0.18);
         }
-
-        .card-image-container {
-            position: absolute;
-            top: -40px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 120px;
-            height: 120px;
-            background: rgba(255,255,255,0.7);
-            border-radius: 18px;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.10);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 2;
-        }
-
-        .card img {
+        .main-card-image {
             width: 100%;
-            height: 100%;
-            object-fit: contain;
-            border-radius: 16px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            background: transparent;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 0;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            background: #fff;
+            display: block;
+            aspect-ratio: 16/9;
+            clip-path: none !important;
         }
-
         .card-content {
-            margin-top: 90px;
+            margin-top: 0;
             width: 100%;
             padding: 24px 18px 18px 18px;
             display: flex;
@@ -292,7 +57,6 @@
             justify-content: flex-end;
             flex: 1;
         }
-
         .title {
             font-size: 1.15em;
             font-weight: 700;
@@ -304,9 +68,8 @@
             z-index: 2;
             text-shadow: none;
         }
-
         .price-badge {
-            background: #20c997;
+            background: #3d9b2c;
             color: white;
             font-size: 1.1em;
             font-weight: bold;
@@ -315,10 +78,9 @@
             margin-top: 6px;
             margin-bottom: 0;
             align-self: flex-end;
-            box-shadow: 0 2px 8px rgba(32,201,151,0.08);
+            box-shadow: 0 2px 8px rgba(0,212,255,0.08);
             z-index: 2;
         }
-
         .product-hover-overlay {
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -336,13 +98,11 @@
             max-height: 100%;
             overflow: auto;
         }
-
         .card:hover .product-hover-overlay {
             opacity: 1;
             pointer-events: auto;
             transition-delay: 1s;
         }
-
         .hover-content {
             max-width: 90%;
             text-align: center;
@@ -351,23 +111,20 @@
             max-height: 90%;
             overflow-y: auto;
         }
-
         .hover-content h3 {
             margin: 0 0 10px 0;
             font-size: 1.2em;
             color: #fff;
         }
-
         .hover-content p {
             margin: 6px 0;
             font-size: 1em;
             line-height: 1.5;
             color: #e0e0e0;
         }
-
         .hover-content .category-badge {
             display: inline-block;
-            background: linear-gradient(135deg, #28a745, #20c997);
+            background: linear-gradient(135deg, #007bff, #00d4ff);
             color: white;
             padding: 5px 14px;
             border-radius: 20px;
@@ -375,7 +132,6 @@
             font-weight: bold;
             margin-bottom: 10px;
         }
-
         @media (max-width: 700px) {
             .products-grid {
                 grid-template-columns: 1fr;
@@ -386,13 +142,7 @@
                 min-width: 180px;
                 max-width: 99vw;
             }
-            .card-image-container {
-                width: 90px;
-                height: 90px;
-                top: -30px;
-            }
             .card-content {
-                margin-top: 70px;
                 padding: 16px 8px 12px 8px;
             }
             .title {
@@ -403,20 +153,6 @@
                 padding: 6px 12px;
             }
         }
-
-        .main-card-image {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-            border-radius: 0;
-            margin-bottom: 16px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-            background: #fff;
-            display: block;
-            aspect-ratio: 16/9;
-            clip-path: none !important;
-        }
-
         .card-content, .card, .products-grid {
             clip-path: none !important;
         }
@@ -497,6 +233,7 @@
     </footer>
 
     <script>
+        const API_BASE_URL = 'https://digital-exchange-express.onrender.com';
         let allProducts = [];
         let filteredProducts = [];
 
@@ -530,7 +267,7 @@
             productsGrid.innerHTML = filteredProducts.map((product, index) => `
                 <div class="card" onclick="openModal(${index})">
                     <div class="card-content">
-                        ${product.image ? `<img class='main-card-image' src='${product.image}' alt='${product.name}'>` : ''}
+                        ${product.image ? `<img class='main-card-image' src='${product.image && product.image.startsWith('http') ? product.image : API_BASE_URL + product.image}' alt='${product.name}'>` : ''}
                         <span class="title">${product.name}</span>
                         <span class="price-badge">${product.price.toLocaleString()} XAF</span>
                     </div>
@@ -575,7 +312,7 @@
                 <div class="modal-product">
                     <div class="modal-image">
                         ${product.image ? 
-                            `<img src="${product.image}" alt="${product.name}">` : 
+                            `<img src="${product.image && product.image.startsWith('http') ? product.image : API_BASE_URL + product.image}" alt="${product.name}">` : 
                             '<div style="font-size: 4em; text-align: center;">💻</div>'
                         }
                     </div>
