@@ -311,6 +311,9 @@
     </footer>
 
     <script>
+        // Set API base URL for Render deployment
+        const API_BASE_URL = 'https://digital-exchange-express.onrender.com';
+
         // Mobile menu toggle
         const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
         const navMenu = document.querySelector('.nav-menu');
@@ -347,7 +350,7 @@
             try {
                 const formData = new FormData(this);
                 
-                const response = await fetch('/api/products', {
+                const response = await fetch(`${API_BASE_URL}/api/products`, {
                     method: 'POST',
                     body: formData
                 });
@@ -381,7 +384,7 @@
             const productsGrid = document.getElementById('productsGrid');
             
             try {
-                const response = await fetch('/api/products');
+                const response = await fetch(`${API_BASE_URL}/api/products`);
                 const products = await response.json();
                 
                 if (products.length === 0) {
@@ -421,7 +424,7 @@
             }
             
             try {
-                const response = await fetch(`/api/products/${productId}`, {
+                const response = await fetch(`${API_BASE_URL}/api/products/${productId}`, {
                     method: 'DELETE'
                 });
                 
