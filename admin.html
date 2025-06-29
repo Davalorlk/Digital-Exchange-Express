@@ -226,7 +226,12 @@
     <nav class="navbar">
         <div class="nav-container">
             <div class="logo">
-                <img src="logo.png" alt="Digital Dream Land Logo" class="navbar-logo" style="height:48px; width:auto; display:block;">
+                <img src="logo.png" alt="Digital Express Exchange Logo" class="navbar-logo" style="height:70px; width:130px; object-fit:contain; margin-top:-8px; margin-bottom:-8px;">
+            </div>
+            <div class="mobile-menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
             </div>
             <ul class="nav-menu">
                 <li><a href="index.html">Home</a></li>
@@ -234,7 +239,6 @@
                 <li><a href="laptops.html">Laptops</a></li>
                 <li><a href="pc.html">PC</a></li>
                 <li><a href="about.html">About Us</a></li>
-                <li><a href="/admin" class="active">Admin</a></li>
             </ul>
         </div>
     </nav>
@@ -293,16 +297,37 @@
     </main>
 
     <footer class="footer">
-        <div class="container">
-            <p>&copy; 2024 Digital Dream Land. All rights reserved.</p>
-            <div class="contact-info" style="margin-top:10px;display:flex;align-items:center;gap:18px;justify-content:center;">
-                <span style="display:flex;align-items:center;gap:4px;"><img src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/icons/envelope-fill.svg" alt="Email" style="width:18px;height:18px;vertical-align:middle;"> DigitalDreamLand</span>
-                <span style="display:flex;align-items:center;gap:4px;"><img src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/icons/telephone-fill.svg" alt="Phone" style="width:18px;height:18px;vertical-align:middle;"> +237679327727</span>
+        <div class="container" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px;">
+            <div style="flex:1 1 200px; min-width: 180px;">
+                <p>&copy; 2024 Digital Dream Land. All rights reserved.</p>
+            </div>
+            <div class="footer-social" style="display:flex;align-items:center;gap:18px;justify-content:flex-end;flex:0 0 auto;">
+                <a href="https://instagram.com/DigitalDreamLand" target="_blank" rel="noopener" aria-label="Instagram"><img src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/icons/instagram.svg" alt="Instagram" style="width:24px;height:24px;"></a>
+                <a href="https://wa.me/+237679327727" target="_blank" rel="noopener" aria-label="WhatsApp"><img src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/icons/whatsapp.svg" alt="WhatsApp" style="width:24px;height:24px;"></a>
+                <a href="mailto:DigitalDreamLand" aria-label="Email"><img src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/icons/envelope-fill.svg" alt="Email" style="width:24px;height:24px;"></a>
+                <a href="https://facebook.com/DigitalDreamLand" target="_blank" rel="noopener" aria-label="Facebook"><img src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/icons/facebook.svg" alt="Facebook" style="width:24px;height:24px;"></a>
             </div>
         </div>
     </footer>
 
     <script>
+        // Mobile menu toggle
+        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+        const navMenu = document.querySelector('.nav-menu');
+        
+        mobileMenuToggle.addEventListener('click', () => {
+            mobileMenuToggle.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+        
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenuToggle.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+
         // Form submission
         document.getElementById('productForm').addEventListener('submit', async function(e) {
             e.preventDefault();
