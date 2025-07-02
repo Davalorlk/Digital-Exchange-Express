@@ -131,12 +131,20 @@ app.post('/api/products', upload.single('image'), async (req, res) => {
             });
         }
 
-        const { name, category, description, price } = req.body;
-        
+        const { name, category, description, price, isLink } = req.body;
+        let image = null;
+
         if (!name || !category || !description || !price) {
             return res.status(400).json({ 
                 error: 'Missing required fields: name, category, description, price' 
             });
+        }
+
+        // Support both file upload and image URL
+        if (isLink === 'true' && req.body.image && typeof req.body.image === 'string') {
+            image = req.body.image;
+        } else if (req.file) {
+            image = `/uploads/${req.file.filename}`;
         }
 
         const productData = {
@@ -144,7 +152,7 @@ app.post('/api/products', upload.single('image'), async (req, res) => {
             category: category,
             description: description,
             price: parseFloat(price),
-            image: req.file ? `/uploads/${req.file.filename}` : null
+            image: image
         };
 
         const newProduct = await db.addProduct(productData);
