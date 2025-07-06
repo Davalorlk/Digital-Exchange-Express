@@ -10,8 +10,18 @@ const app = express();
 const PORT = config.port;
 
 // Middleware
+const allowedOrigins = [
+    'https://www.digitaldreamland.site',
+    'https://digital-exchange-express.vercel.app'
+];
 const corsOptions = {
-    origin: 'https://www.digitaldreamland.site/',
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     credentials: true // if you use cookies/auth, otherwise can be omitted
 };
 app.use(cors(corsOptions));
