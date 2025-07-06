@@ -11,7 +11,7 @@ const PORT = config.port;
 
 // Middleware
 const corsOptions = {
-    origin: 'https://digital-exchange-express.vercel.app',
+    origin: 'https://www.digitaldreamland.site/',
     credentials: true // if you use cookies/auth, otherwise can be omitted
 };
 app.use(cors(corsOptions));
